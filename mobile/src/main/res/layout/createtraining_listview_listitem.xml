@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:layout_marginBottom="25dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/rlayout_exercise_listitem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/design_listitem_dashed"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#3CFF0000"
+            android:paddingLeft="15dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:layout_weight="0.75">
+
+            <TextView
+                android:id="@+id/txtview_exercise_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Exercise"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="30dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#3C00FF00"
+            android:paddingRight="15dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:layout_weight="0.25">
+
+            <TextView
+                android:id="@+id/txtview_exercise_repetition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="10"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

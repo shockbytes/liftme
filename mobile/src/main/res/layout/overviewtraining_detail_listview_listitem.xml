@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="25dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <RelativeLayout
+        android:id="@+id/rlayout_overviewdetail_listitem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/design_button_border_white"
+        android:padding="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/txtview_overviewdetail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingBottom="20dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="20dp"
+            android:text="Exercise"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/txtview_overviewdetail_repetition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="20dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:text="10"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+    </RelativeLayout>
+</RelativeLayout>
