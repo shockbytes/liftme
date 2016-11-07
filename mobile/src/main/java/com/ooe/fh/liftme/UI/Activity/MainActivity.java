@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        tablayout.addTab(tablayout.newTab().setText("Create Training"));
-        tablayout.addTab(tablayout.newTab().setText("Start Training"));
-        tablayout.addTab(tablayout.newTab().setText("Overview Training"));
+        tablayout.addTab(tablayout.newTab().setText("Create"));
+        tablayout.addTab(tablayout.newTab().setText("Start"));
+        tablayout.addTab(tablayout.newTab().setText("Overview"));
 
         mViewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(), tablayout.getTabCount()));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));

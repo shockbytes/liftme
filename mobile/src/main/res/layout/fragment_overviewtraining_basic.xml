@@ -7,7 +7,7 @@
     android:padding="20dp"
     >
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listview_overviewtraining"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

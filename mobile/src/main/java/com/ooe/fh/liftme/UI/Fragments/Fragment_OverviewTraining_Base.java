@@ -2,6 +2,8 @@ package com.ooe.fh.liftme.UI.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +25,11 @@ import butterknife.ButterKnife;
  * Created by Max on 04.11.2016.
  */
 
-public class Fragment_OverviewTraining_Base extends Global_Fragment{
+public class Fragment_OverviewTraining_Base extends Global_Fragment
+        implements Listeners.OnRecycleViewListItemClickListener {
 
     @Bind(R.id.listview_overviewtraining)
-    ListView listview_overviewtraining;
+    RecyclerView recyclview_overviewtraining;
 
     //Composite types
     private List<OverviewTraining_Listitem_Model> mItemData;
@@ -57,19 +60,14 @@ public class Fragment_OverviewTraining_Base extends Global_Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final OverviewTraining_Adapter adapter = new OverviewTraining_Adapter(getContext(), mItemData);
-        listview_overviewtraining.setAdapter(adapter);
-        listview_overviewtraining.setDivider(null);
-        listview_overviewtraining.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+        recyclview_overviewtraining.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclview_overviewtraining.setLayoutManager(llm);
+        OverviewTraining_Adapter adapter = new OverviewTraining_Adapter(mItemData);
+        adapter.setOnItemClickListener(this);
+        recyclview_overviewtraining.setAdapter(adapter);
 
-                OverviewTraining_Listitem_Model listItem = (OverviewTraining_Listitem_Model) listview_overviewtraining.getItemAtPosition(position);
-                if (clickListener != null) {
-                    clickListener.onOverviewTrainingListItemClick(listItem);
-                }
-            }});
         setHasOptionsMenu(true);
     }
 
@@ -80,5 +78,13 @@ public class Fragment_OverviewTraining_Base extends Global_Fragment{
 
     public void setButtonClickListener(Listeners.OnOverviewTrainingListItemClickListener clickListener) {
         this.clickListener = clickListener;
+    }
+
+    @Override
+    public void onOverviewTrainingListItemClick(OverviewTraining_Listitem_Model model) {
+
+        if(clickListener != null) {
+            clickListener.onOverviewTrainingListItemClick(model);
+        }
     }
 }

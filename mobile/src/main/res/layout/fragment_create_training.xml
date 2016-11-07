@@ -82,7 +82,7 @@
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
                 android:text="Pushups"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_blackwhite" />
 
             <Button
                 android:id="@+id/test2"
@@ -91,7 +91,7 @@
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
                 android:text="Situps"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_blackwhite" />
 
             <Button
                 android:id="@+id/test3"
@@ -100,7 +100,7 @@
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
                 android:text="Burpes"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_blackwhite" />
 
 
         </LinearLayout>
@@ -128,7 +128,7 @@
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
                 android:text="10KG"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_blackwhite" />
 
             <Button
                 android:id="@+id/test5"
@@ -137,7 +137,7 @@
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
                 android:text="20KG"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_blackwhite" />
 
             <Button
                 android:id="@+id/test6"
@@ -146,7 +146,7 @@
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
                 android:text="30KG"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_blackwhite" />
 
 
         </LinearLayout>
