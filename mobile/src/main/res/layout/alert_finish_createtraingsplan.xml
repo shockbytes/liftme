@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/design_button_border_white"
+    android:padding="1dp"
     >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_starttraining"
+        >
 
     <TextView
         android:id="@+id/txtview_title_alert_finish"
@@ -14,7 +23,7 @@
         android:layout_marginBottom="20dp"
         android:text="Complete training"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorRed"
         android:textAllCaps="true"
         />
 
@@ -25,17 +34,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:gravity="left"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="Select name and color of your training: "
         />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal"
-        android:layout_marginLeft="25dp"
         >
 
         <Button android:id="@+id/btn_black_alert_finish" android:layout_width="30dp" android:layout_height="30dp"
@@ -62,7 +71,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="15dp"
         android:textCursorDrawable="@drawable/design_edittext_color_cursor"
-        android:backgroundTint="@color/colorPrimary" />
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorRed" />
 
 
     <LinearLayout
@@ -80,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:textColor="@color/white"
             android:background="@color/transparent"
             android:text="Cancel"
             ></Button>
@@ -89,9 +100,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:textColor="@color/white"
             android:background="@color/transparent"
             android:text="Done"
             ></Button>
 
     </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+    </RelativeLayout>

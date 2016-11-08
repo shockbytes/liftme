@@ -1,11 +1,15 @@
 package com.ooe.fh.liftme.UI.Adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
+import com.ooe.fh.liftme.R;
 import com.ooe.fh.liftme.UI.Layout.Elements.OverviewTraining_Listitem_Holder;
+import com.ooe.fh.liftme.utils.Listeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,31 +18,40 @@ import java.util.List;
  * Created by Max on 05.11.2016.
  */
 
-public class OverviewTraining_Adapter extends GlobalList_Adapter<OverviewTraining_Listitem_Model>  {
+public class OverviewTraining_Adapter extends RecyclerView.Adapter<OverviewTraining_Listitem_Holder>   {
 
-    private Context mContext;
+    private List<OverviewTraining_Listitem_Model> contactList;
 
-    //List of items to show
-    private List<OverviewTraining_Listitem_Model> mListItems = new ArrayList<>();
+    private Listeners.OnRecycleViewListItemClickListener onClickListener;
 
+    public OverviewTraining_Adapter(List<OverviewTraining_Listitem_Model> contactList) {
+        this.contactList = contactList;
+    }
 
-    public OverviewTraining_Adapter(Context context, List<OverviewTraining_Listitem_Model> objects) {
-        super(context, objects);
-        mContext = context;
-        mListItems = objects;
+    public void setOnItemClickListener(Listeners.OnRecycleViewListItemClickListener listener) {
+        onClickListener = listener;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        OverviewTraining_Listitem_Holder listItem = (OverviewTraining_Listitem_Holder) convertView;
+    public OverviewTraining_Listitem_Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.
+                from(parent.getContext()).
+                inflate(R.layout.overviewtraining_listview_listitem, parent, false);
 
-        if (listItem == null) {
-            listItem = new OverviewTraining_Listitem_Holder(mContext);
-        }
+        return new OverviewTraining_Listitem_Holder(itemView);
+    }
 
-        OverviewTraining_Listitem_Model completeTrainingsplanListItemModel = (OverviewTraining_Listitem_Model)getItem(position);
-        listItem.setData(completeTrainingsplanListItemModel);
+    @Override
+    public void onBindViewHolder(OverviewTraining_Listitem_Holder holder, int position) {
+        OverviewTraining_Listitem_Model ci = contactList.get(position);
+        holder.getTxtview_completetraining_name().setText(ci.getName_trainingsplan());
+        holder.getRlayout_background_overview_listitem().setBackgroundColor(ci.getColor_trainingsplan());
+        holder.setModel(ci);
+        holder.setOnItemClickListener(onClickListener);
+    }
 
-        return listItem;
+    @Override
+    public int getItemCount() {
+        return contactList.size();
     }
 }

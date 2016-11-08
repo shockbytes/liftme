@@ -2,19 +2,28 @@ package com.ooe.fh.liftme.UI.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ooe.fh.liftme.Models.AlertSelectTraining_Listitem_Model;
 import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
 import com.ooe.fh.liftme.R;
 import com.ooe.fh.liftme.UI.Activity.MainActivity;
+import com.ooe.fh.liftme.UI.Adapters.AlertSelectTraining_Adapter;
+import com.ooe.fh.liftme.UI.Adapters.OverviewTraining_Adapter;
 import com.ooe.fh.liftme.application.AppClass;
 import com.ooe.fh.liftme.utils.Listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -40,6 +49,9 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
 
     @Bind(R.id.rlayout_background_selectbutton)
     RelativeLayout rlayout_background_selectbutton;
+
+    //Primitive types
+    private int mSelectedTraining;
 
     //Composite types
     private List<OverviewTraining_Listitem_Model> mItemData;
@@ -83,6 +95,7 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
             @Override
             public void onClick(View view) {
                 //ToDo - Show all created trainings
+                selectTrainingDialog();
             }
         });
 
@@ -110,23 +123,26 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
     private void startTimer(){
         txtview_countdowntext_startTraining.setText("");
         Thread t = new Thread() {
-            int countdown = 5;
+            int countdown = 6;
             @Override
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        if(countdown == 0) break;
                         Thread.sleep(1000);
+                        if(countdown == -1) break;
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if(countdown == 0){
-                                    txtview_countdown_startTraining.setText("GO");
                                     if (clickListener != null) {
                                         clickListener.onStartTrainingStartButtonClick();
                                     }
+                                }
+                                else if(countdown == 1){
+                                    txtview_countdown_startTraining.setText("GO");
+
                                 }else {
-                                    txtview_countdown_startTraining.setText(Integer.toString(countdown));
+                                    txtview_countdown_startTraining.setText(Integer.toString(countdown-1));
                                 }
                                 countdown--;
                             }
@@ -148,6 +164,53 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
             rlayout_background_selectbutton.setBackgroundColor(AppClass.overviewTraining_Listitem_models.get(AppClass.overviewTraining_Listitem_models.size()-1).getColor_trainingsplan());
             txtview_selecttraining_selectbutton.setText(AppClass.overviewTraining_Listitem_models.get(AppClass.overviewTraining_Listitem_models.size()-1).getName_trainingsplan());
         }
+    }
+
+    /**
+     * Shows SelectTraining-Dialog
+     */
+    private void selectTrainingDialog() {
+        List<AlertSelectTraining_Listitem_Model> alertitems = new ArrayList<>();
+        for(int i = 0; i < AppClass.overviewTraining_Listitem_models.size(); i++){
+            alertitems.add(new AlertSelectTraining_Listitem_Model(
+                    AppClass.overviewTraining_Listitem_models.get(i).getColor_trainingsplan(),
+                    AppClass.overviewTraining_Listitem_models.get(i).getName_trainingsplan()));
+        }
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.alert_select_training, null);
+        dialogBuilder.setView(dialogView);
+
+        final ListView listview_alert = (ListView) dialogView.findViewById(R.id.listview_select_training);
+        final AlertSelectTraining_Adapter adapter = new AlertSelectTraining_Adapter(getContext(), alertitems);
+        listview_alert.setAdapter(adapter);
+        listview_alert.setDivider(null);
+
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+
+        listview_alert.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                AlertSelectTraining_Listitem_Model listItem = (AlertSelectTraining_Listitem_Model) listview_alert.getItemAtPosition(position);
+                rlayout_background_selectbutton.setBackgroundColor(listItem.getColor_selecttraining());
+                txtview_selecttraining_selectbutton.setText(listItem.getName_selecttraining());
+                mSelectedTraining = position;
+                alertDialog.cancel();
+            }});
+
+        final Button btn_cancel_alert_selecttraining = (Button) dialogView.findViewById(R.id.btn_cancel_alert_selecttraining);
+        btn_cancel_alert_selecttraining.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.cancel();
+            }
+        });
+
     }
 
     public void setButtonClickListener(Listeners.OnStartTrainingStartButtonClickListener clickListener) {

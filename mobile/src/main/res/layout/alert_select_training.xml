@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/design_button_border_white"
+    android:orientation="vertical"
+    android:padding="1dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_starttraining"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txtview_title_alert_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="15dp"
+            android:text="Select training"
+            android:textAllCaps="true"
+            android:textColor="@color/colorRed"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/listview_select_training"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="25dp"
+            android:scrollbars="none" />
+
+        <Button
+            android:id="@+id/btn_cancel_alert_selecttraining"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"
+            android:stateListAnimator="@null"
+            android:text="Cancel"
+            android:textColor="@color/white"></Button>
+
+    </LinearLayout>
+</RelativeLayout>

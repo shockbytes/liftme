@@ -19,4 +19,8 @@ public class Listeners {
     public interface OnStartTrainingStartButtonClickListener{
         void onStartTrainingStartButtonClick();
     }
+
+    public interface OnRecycleViewListItemClickListener {
+        void onOverviewTrainingListItemClick(OverviewTraining_Listitem_Model model);
+    }
 }
