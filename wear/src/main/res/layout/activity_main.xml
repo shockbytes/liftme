@@ -5,22 +5,42 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ooe.fh.liftme.UI.Activity.MainActivity"
+    android:background="@drawable/background"
     tools:deviceIds="wear">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/text_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="05:45"
+        android:textColor="@color/textColor"
+        app:layout_box="top|left|right" />
+
+    <TextView
+        android:id="@+id/text_workout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_world"
+        android:gravity="center"
+        android:text="50 BURPEES"
+        android:textColor="@color/textColor"
+        android:textSize="32sp"
+        android:textStyle="bold"
         app:layout_box="all" />
 
     <TextView
-        android:id="@+id/clock"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_heart_rate"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:textColor="@android:color/white"
-        app:layout_box="all" />
+        android:layout_gravity="bottom|end"
+        android:drawableStart="@drawable/ic_heart_rate"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:text="140bpm"
+        android:textColor="@color/textColor"
+        app:layout_box="bottom|right" />
+
 
 </android.support.wearable.view.BoxInsetLayout>
