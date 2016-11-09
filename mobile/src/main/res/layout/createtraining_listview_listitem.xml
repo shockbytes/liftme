@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:layout_marginBottom="25dp"
     >
 
     <LinearLayout
-        android:id="@+id/rlayout_exercise_listitem"
+        android:id="@+id/llayout_exercise_listitem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/design_listitem_dashed"
@@ -16,9 +16,10 @@
         android:padding="2dp">
 
         <RelativeLayout
+            android:id="@+id/rlayout_exercise_background"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#3CFF0000"
+            android:background="@color/colorRedExercise"
             android:paddingLeft="15dp"
             android:paddingBottom="20dp"
             android:paddingTop="20dp"
@@ -36,9 +37,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rlayout_repetition_background"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#3C00FF00"
+            android:background="@color/colorRedExercise"
             android:paddingRight="15dp"
             android:paddingBottom="20dp"
             android:paddingTop="20dp"
@@ -49,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="10"
+                android:text="0"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="30dp" />

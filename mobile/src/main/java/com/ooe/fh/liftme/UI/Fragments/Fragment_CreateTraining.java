@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import com.ooe.fh.liftme.Models.CreateTraining_Listitem_Model;
 import com.ooe.fh.liftme.R;
 import com.ooe.fh.liftme.UI.Activity.MainActivity;
 import com.ooe.fh.liftme.UI.Adapters.CreateTraining_Adapter;
+import com.ooe.fh.liftme.UI.Adapters.OverviewTraining_Adapter;
 import com.ooe.fh.liftme.application.AppClass;
+import com.ooe.fh.liftme.utils.Listeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +32,10 @@ import butterknife.ButterKnife;
  * Created by Max on 04.11.2016.
  */
 
-public class Fragment_CreateTraining extends Global_Fragment{
+public class Fragment_CreateTraining extends Global_Fragment {
 
-    @Bind(R.id.listview_createTrainingsplan)
-    ListView listview_createTrainingsplan;
+    @Bind(R.id.recycleview_createTrainingsplan)
+    RecyclerView recycleview_createTrainingsplan;
 
     @Bind(R.id.btn_finish_createTrainingsplan)
     Button btn_finish_createTrainingsplan;
@@ -48,16 +52,23 @@ public class Fragment_CreateTraining extends Global_Fragment{
     @Bind(R.id.bottom_sheet_kg)
     View bottom_sheet_kg;
 
+    @Bind(R.id.btn_addexercise_createTrainingsplan)
+    Button btn_addexercise_createTrainingsplan;
+
     //Primitive types
     private int mSelectedColor;
 
     //Composite types
     private List<CreateTraining_Listitem_Model> mItemData;
     final ArrayList<Button> mColorButtons = new ArrayList<>();
+    LinearLayoutManager llm;
 
     //UI-Elements
     private BottomSheetBehavior mBottomSheetBehaviorEX;
     private BottomSheetBehavior mBottomSheetBehaviorKG;
+
+    //Adapters
+    private CreateTraining_Adapter mAdapter;
 
     public static Fragment_CreateTraining newInstance(Context context) {
         Fragment_CreateTraining f = new Fragment_CreateTraining();
@@ -68,7 +79,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mItemData = new ArrayList<CreateTraining_Listitem_Model>();
-        addFakeData();
+        //addFakeData();
     }
 
     @Override
@@ -84,9 +95,13 @@ public class Fragment_CreateTraining extends Global_Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final CreateTraining_Adapter adapter = new CreateTraining_Adapter(getContext(), mItemData);
-        listview_createTrainingsplan.setAdapter(adapter);
-        listview_createTrainingsplan.setDivider(null);
+        recycleview_createTrainingsplan.setHasFixedSize(true);
+        llm = new LinearLayoutManager(getContext());
+        llm.setReverseLayout(false);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recycleview_createTrainingsplan.setLayoutManager(llm);
+        mAdapter = new CreateTraining_Adapter(mItemData);
+        recycleview_createTrainingsplan.setAdapter(mAdapter);
 
         btn_finish_createTrainingsplan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +121,15 @@ public class Fragment_CreateTraining extends Global_Fragment{
             @Override
             public void onClick(View v) {
                 mBottomSheetBehaviorKG.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+
+        btn_addexercise_createTrainingsplan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mItemData.add(0,new CreateTraining_Listitem_Model("Drag & Drop " + mItemData.size(), 0));
+                mAdapter.notifyItemInserted(0);
+                llm.scrollToPositionWithOffset(0,0);
             }
         });
 

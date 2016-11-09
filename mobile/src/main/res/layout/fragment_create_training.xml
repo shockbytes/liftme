@@ -15,11 +15,29 @@
         android:paddingRight="20dp"
         android:paddingTop="50dp">
 
-        <ListView
-            android:id="@+id/listview_createTrainingsplan"
+        <Button
+            android:id="@+id/btn_addexercise_createTrainingsplan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/design_button_border_white"
+            android:paddingBottom="20dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="20dp"
+            android:text="+"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="30dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleview_createTrainingsplan"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+
+            android:layout_below="@+id/btn_addexercise_createTrainingsplan"
             android:layout_marginBottom="80dp"
             android:scrollbars="none" />
 

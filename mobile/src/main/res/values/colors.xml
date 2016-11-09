@@ -12,5 +12,7 @@
     <color name="colorGreen">#249a64</color>
     <color name="colorBlue">#1E88E5</color>
     <color name="colorYellow">#FFEA00</color>
+    <color name="colorGreenExercise">#3C00FF00</color>
+    <color name="colorRedExercise">#3CFF0000</color>
 
 </resources>
