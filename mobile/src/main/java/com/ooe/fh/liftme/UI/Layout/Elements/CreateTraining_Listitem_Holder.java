@@ -43,6 +43,8 @@ public class CreateTraining_Listitem_Holder extends RecyclerView.ViewHolder {
     //Models
     private CreateTraining_Listitem_Model model;
 
+
+
     public CreateTraining_Listitem_Holder(View view) {
         super(view);
         ButterKnife.bind(this, view);

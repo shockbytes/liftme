@@ -33,6 +33,13 @@
             android:label="LiftMe"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <receiver android:name=".UI.Fragments.Fragment_CreateTraining$OnDragHappenedBroadcastReceiver">
+            <intent-filter>
+                <action android:name="ON_ITEM_DRAG_HAPPENED">
+                </action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
