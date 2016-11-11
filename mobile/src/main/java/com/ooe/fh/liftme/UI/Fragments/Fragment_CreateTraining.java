@@ -1,11 +1,19 @@
 package com.ooe.fh.liftme.UI.Fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +40,9 @@ import butterknife.ButterKnife;
  * Created by Max on 04.11.2016.
  */
 
-public class Fragment_CreateTraining extends Global_Fragment {
+public class Fragment_CreateTraining extends Global_Fragment{
+
+
 
     @Bind(R.id.recycleview_createTrainingsplan)
     RecyclerView recycleview_createTrainingsplan;
@@ -55,8 +65,27 @@ public class Fragment_CreateTraining extends Global_Fragment {
     @Bind(R.id.btn_addexercise_createTrainingsplan)
     Button btn_addexercise_createTrainingsplan;
 
+    @Bind(R.id.btn_exercise1)
+    Button btn_exercise_pushup;
+
+    @Bind(R.id.btn_exercise2)
+    Button btn_exercise_situp;
+
+    @Bind(R.id.btn_exercise3)
+    Button btn_exercise_burpes;
+
+    @Bind(R.id.btn_weight1)
+    Button btn_weight_10;
+
+    @Bind(R.id.btn_weight2)
+    Button btn_weight_15;
+
+    @Bind(R.id.btn_weight3)
+    Button btn_weight_20;
+
     //Primitive types
     private int mSelectedColor;
+
 
     //Composite types
     private List<CreateTraining_Listitem_Model> mItemData;
@@ -70,6 +99,12 @@ public class Fragment_CreateTraining extends Global_Fragment {
     //Adapters
     private CreateTraining_Adapter mAdapter;
 
+    //Listener
+    NestedItemTouchListener mNestedItemTouchListener = new NestedItemTouchListener();
+
+    //BroadcastReceiver
+    BroadcastReceiver mReceiver = null;
+
     public static Fragment_CreateTraining newInstance(Context context) {
         Fragment_CreateTraining f = new Fragment_CreateTraining();
         return f;
@@ -80,6 +115,14 @@ public class Fragment_CreateTraining extends Global_Fragment {
         super.onCreate(savedInstanceState);
         mItemData = new ArrayList<CreateTraining_Listitem_Model>();
         //addFakeData();
+
+        //register broadcast receiver
+        if(mReceiver == null) {
+            mReceiver = new OnDragHappenedBroadcastReceiver();
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(
+                    mReceiver,
+                    new IntentFilter("ON_ITEM_DRAG_HAPPENED"));
+        }
     }
 
     @Override
@@ -100,7 +143,7 @@ public class Fragment_CreateTraining extends Global_Fragment {
         llm.setReverseLayout(false);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recycleview_createTrainingsplan.setLayoutManager(llm);
-        mAdapter = new CreateTraining_Adapter(mItemData);
+        mAdapter = new CreateTraining_Adapter(mItemData, getContext());
         recycleview_createTrainingsplan.setAdapter(mAdapter);
 
         btn_finish_createTrainingsplan.setOnClickListener(new View.OnClickListener() {
@@ -127,11 +170,22 @@ public class Fragment_CreateTraining extends Global_Fragment {
         btn_addexercise_createTrainingsplan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mItemData.add(0,new CreateTraining_Listitem_Model("Drag & Drop " + mItemData.size(), 0));
+                int color = getContext().getResources().getColor(R.color.colorRedExercise);
+                mItemData.add(0,new CreateTraining_Listitem_Model("Drag & Drop " + mItemData.size(), 0, color, color, mItemData.size()+1));
                 mAdapter.notifyItemInserted(0);
                 llm.scrollToPositionWithOffset(0,0);
-            }
+                recycleview_createTrainingsplan.invalidate();
+     }
         });
+
+
+        btn_exercise_pushup.setOnLongClickListener(mNestedItemTouchListener);
+        btn_exercise_situp.setOnLongClickListener(mNestedItemTouchListener);
+        btn_exercise_burpes.setOnLongClickListener(mNestedItemTouchListener);
+
+        btn_weight_10.setOnLongClickListener(mNestedItemTouchListener);
+        btn_weight_15.setOnLongClickListener(mNestedItemTouchListener);
+        btn_weight_20.setOnLongClickListener(mNestedItemTouchListener);
 
         setHasOptionsMenu(true);
     }
@@ -139,16 +193,36 @@ public class Fragment_CreateTraining extends Global_Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        //register the broadcast receiver
+        if(mReceiver == null) {
+            mReceiver = new OnDragHappenedBroadcastReceiver();
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(
+                    mReceiver,
+                    new IntentFilter("ON_ITEM_DRAG_HAPPENED"));
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+
+        //unregister the broadcast receiver
+        if (mReceiver != null) {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mReceiver);
+            mReceiver = null;
+        }
+        super.onDestroy();
     }
 
     /**
      * Add fake data to listview
      */
     private void addFakeData() {
-        CreateTraining_Listitem_Model head1 = new CreateTraining_Listitem_Model("Exercise X", 0);
-        CreateTraining_Listitem_Model head2 = new CreateTraining_Listitem_Model("Exercise X", 0);
-        CreateTraining_Listitem_Model head3 = new CreateTraining_Listitem_Model("Exercise X", 0);
-        CreateTraining_Listitem_Model head4 = new CreateTraining_Listitem_Model("Exercise X", 0);
+        int color = getContext().getResources().getColor(R.color.colorRedExercise);
+        CreateTraining_Listitem_Model head1 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
+        CreateTraining_Listitem_Model head2 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
+        CreateTraining_Listitem_Model head3 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
+        CreateTraining_Listitem_Model head4 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
 
         mItemData.add(head1);
         mItemData.add(head2);
@@ -247,4 +321,45 @@ public class Fragment_CreateTraining extends Global_Fragment {
         mColorButtons.get(3).setBackgroundColor(getResources().getColor(R.color.colorBlue));
         mColorButtons.get(4).setBackgroundColor(getResources().getColor(R.color.colorYellow));
     }
+
+    /**
+     * Broadcast receiver which listens if an item was dropped on an recycleview item
+     */
+    public class OnDragHappenedBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction() == "ON_ITEM_DRAG_HAPPENED"){
+                Log.e("broadcastReceiver", "received event");
+                String title = intent.getStringExtra("MODEL_TITLE");
+                int weight = intent.getIntExtra("MODEL_WEIGHT", -1);
+                int positon = intent.getIntExtra("MODEL_POSITION", -1);
+                int title_background = intent.getIntExtra("MODEL_TITLE_BACKGROUND", -1);
+                int weight_background = intent.getIntExtra("MODEL_WEIGHT_BACKGROUND", -1);
+                mItemData.get(mItemData.size()-positon).setAmount_trainingsplan_listitem(weight);
+                mItemData.get(mItemData.size()-positon).setTitle_trainingsplan_listitem(title);
+                mItemData.get(mItemData.size()-positon).setTitle_background_color(title_background);
+                mItemData.get(mItemData.size()-positon).setAmount_background_color(weight_background);
+            }
+
+        }
+    }
+
+    /**
+     * Longclick listener for draggind an item
+     */
+    private class NestedItemTouchListener implements View.OnLongClickListener {
+
+        public boolean onLongClick(View view) {
+
+            ClipData data = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
+                    view);
+            view.startDrag(data, shadowBuilder, view, 0);
+            view.setVisibility(View.INVISIBLE);
+            return true;
+        }
+    }
+
 }
