@@ -1,24 +1,33 @@
 package com.ooe.fh.liftme.UI.Fragments;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ibm.mobilefirst.mobileedge.MobileEdgeController;
+import com.ibm.mobilefirst.mobileedge.connectors.AndroidWear;
+import com.ibm.mobilefirst.mobileedge.interpretation.Classification;
+import com.ibm.mobilefirst.mobileedge.interpretation.InterpretationListener;
+import com.ibm.mobilefirst.mobileedge.utils.GesturesDataUtils;
 import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
 import com.ooe.fh.liftme.Models.TrainExercise_Page_Model;
 import com.ooe.fh.liftme.R;
 import com.ooe.fh.liftme.UI.Adapters.Train_PagerAdapter;
 import com.ooe.fh.liftme.UI.Layout.Elements.TrainExercise_Page_Holder;
+
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +56,12 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     //Primitive types
     int mActuallPage = 0;
 
-    public static Fragment_StartTraining_Train newInstance(Context context, OverviewTraining_Listitem_Model _model) {
+    private AndroidWear wearConnector;
+    private MobileEdgeController wearController;
+    private Classification classification;
+
+    public static Fragment_StartTraining_Train newInstance(Context context,
+                                                           OverviewTraining_Listitem_Model _model) {
         Fragment_StartTraining_Train f = new Fragment_StartTraining_Train();
         f.setData(_model);
         return f;
@@ -56,6 +70,7 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createExerciseRecognition();
     }
 
     @Override
@@ -87,7 +102,6 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     public void onResume() {
         super.onResume();
     }
-
 
     /**
      * Starts the chronometer
@@ -183,4 +197,83 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
 
         t.start();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        startExerciseRecognition();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        stopExerciseRecognition();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        destroyExerciseRecognition();
+    }
+
+    private void createExerciseRecognition() {
+
+        wearConnector = new AndroidWear();
+        wearController = new MobileEdgeController();
+        classification = new Classification(getActivity());
+
+        wearController.connect(getActivity(), wearConnector);
+        loadGestures();
+    }
+
+    private void startExerciseRecognition() {
+
+        classification.setListener(new InterpretationListener() {
+            @Override
+            public void onInterpretationDetected(String name, Object additionalInfo) {
+
+                JSONObject jsonResult = (JSONObject) additionalInfo;
+                handleResult(jsonResult);
+            }
+        });
+
+        wearController.registerInterpretation(classification);
+        wearController.turnClassificationSensorsOn();
+    }
+
+    private void stopExerciseRecognition() {
+        wearController.turnClassificationSensorsOff();
+        wearController.unregisterClassification(classification);
+    }
+
+    private void destroyExerciseRecognition() {
+        wearController.disconnect(wearConnector);
+    }
+
+    private void handleResult(JSONObject json) {
+
+        String gesture = json.optString("recognized");
+        String score = json.optString("score");
+
+        Toast.makeText(getActivity(), "Gesture recognized: " + gesture + " / " + score +"%", Toast.LENGTH_LONG).show();
+
+        // TODO Check if current exercise is selected (do not count different reps)
+        if (gesture.contains(getString(R.string.exercise_recognition_curl))) {
+            // TODO update model and send message to wearable
+        } else if (gesture.contains(getString(R.string.exercise_recognition_benchpress))) {
+            // TODO update model and send message to wearable
+        } else if (gesture.contains(getString(R.string.exercise_recognition_butterfly))) {
+            // TODO update model and send message to wearable
+        }
+    }
+
+    private void loadGestures() {
+        ArrayList<InputStream> savedGesturesAsInputStream = GesturesDataUtils
+                .getEnabledGesturesAsInputStream(getActivity());
+
+        for (InputStream is : savedGesturesAsInputStream) {
+            classification.loadGesture(is);
+            Log.wtf("LiftMe", "Loaded gesture == " + is.toString());
+        }
+    }
+
 }

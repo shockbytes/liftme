@@ -40,4 +40,7 @@
     <string name="intent_extra_position">MODEL_POSITION</string>
     <string name="intent_extra_background_title">MODEL_TITLE_BACKGROUND</string>
     <string name="intent_extra_background_repetitions">MODEL_REPETITIONS_BACKGROUND</string>
+    <string name="exercise_recognition_curl">curl</string>
+    <string name="exercise_recognition_benchpress">benchpress</string>
+    <string name="exercise_recognition_butterfly">butterfly</string>
 </resources>
