@@ -3,18 +3,21 @@ package com.ooe.fh.liftme.Models;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by Max on 05.11.2016.
  */
 
-public class OverviewTraining_Listitem_Model {
+public class OverviewTraining_Listitem_Model extends RealmObject{
 
     //Referenced color of training
     private int color_trainingsplan ;
     //Name of training
     private String name_trainingsplan;
     //Exercises of training
-    private List<CreateTraining_Listitem_Model> exercises_traingsplan;
+    private RealmList<CreateTraining_Listitem_Model> exercises_traingsplan;
 
     public OverviewTraining_Listitem_Model() {
         super();
@@ -24,7 +27,8 @@ public class OverviewTraining_Listitem_Model {
         super();
         this.color_trainingsplan = color_trainingsplan;
         this.name_trainingsplan = name_trainingsplan;
-        this.exercises_traingsplan = exercises_traingsplan;
+        this.exercises_traingsplan = new RealmList<CreateTraining_Listitem_Model>();
+        this.exercises_traingsplan.addAll(exercises_traingsplan);
     }
 
     public int getColor_trainingsplan() {
@@ -48,6 +52,7 @@ public class OverviewTraining_Listitem_Model {
     }
 
     public void setExercises_traingsplan(ArrayList<CreateTraining_Listitem_Model> exercises_traingsplan) {
-        this.exercises_traingsplan = exercises_traingsplan;
+        this.exercises_traingsplan = new RealmList<CreateTraining_Listitem_Model>();
+        this.exercises_traingsplan.addAll(exercises_traingsplan);
     }
 }

@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
 
-        AppClass.overviewTraining_Listitem_models = new ArrayList<OverviewTraining_Listitem_Model>();
+        //AppClass.overviewTraining_Listitem_models = new ArrayList<OverviewTraining_Listitem_Model>();
 
         initializeGoogleApiClient();
     }
