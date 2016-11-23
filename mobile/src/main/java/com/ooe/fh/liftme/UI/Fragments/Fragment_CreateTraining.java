@@ -35,6 +35,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * Created by Max on 04.11.2016.
@@ -303,6 +304,10 @@ public class Fragment_CreateTraining extends Global_Fragment{
                 if(etxt_name.getText().toString().length() > 3 && etxt_name.getText().toString().length() < 10){
                     AppClass.overviewTraining_Listitem_models.add(new OverviewTraining_Listitem_Model(mSelectedColor,etxt_name.getText().toString(),mItemData));
                     ((MainActivity)getActivity()).getmViewPager().setCurrentItem(1);
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.copyToRealm(new OverviewTraining_Listitem_Model(mSelectedColor,etxt_name.getText().toString(),mItemData));
+                    realm.commitTransaction();
                     alertDialog.cancel();
                 }else{
                     etxt_name.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

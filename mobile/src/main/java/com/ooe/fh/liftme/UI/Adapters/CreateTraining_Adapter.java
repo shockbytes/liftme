@@ -13,28 +13,24 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ooe.fh.liftme.Models.CreateTraining_Listitem_Model;
-import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
 import com.ooe.fh.liftme.R;
-import com.ooe.fh.liftme.UI.Fragments.Fragment_CreateTraining;
 import com.ooe.fh.liftme.UI.Layout.Elements.CreateTraining_Listitem_Holder;
-import com.ooe.fh.liftme.UI.Layout.Elements.OverviewTraining_Listitem_Holder;
-import com.ooe.fh.liftme.utils.Listeners;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmObject;
 
 /**
  * Created by Max on 04.11.2016.
  */
 
-public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_Listitem_Holder>  {
+public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_Listitem_Holder> {
 
-    private List<CreateTraining_Listitem_Model> contactList;
+    private List<CreateTraining_Listitem_Model> exerciseList;
     private Context mContext;
 
-    public CreateTraining_Adapter(List<CreateTraining_Listitem_Model> contactList, Context context) {
-        this.contactList = contactList;
+    public CreateTraining_Adapter(List<CreateTraining_Listitem_Model> exerciseList, Context context) {
+        this.exerciseList = exerciseList;
         mContext = context;
     }
 
@@ -67,8 +63,8 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
 
                             TextView name = (TextView) itemView.findViewById(R.id.txtview_exercise_name);
                             name.setText(((Button)view).getText().toString());
-                            contactList.get(contactList.size()-position).setTitle_trainingsplan_listitem(((Button)view).getText().toString());
-                            contactList.get(contactList.size()-position).setTitle_background_color(mContext.getResources().getColor(R.color.colorGreenExercise));
+                            exerciseList.get(exerciseList.size()-position).setTitle_trainingsplan_listitem(((Button)view).getText().toString());
+                            exerciseList.get(exerciseList.size()-position).setTitle_background_color(mContext.getResources().getColor(R.color.colorGreenExercise));
                             holder.getRlayout_exercise_background().setBackgroundColor(mContext.getResources().getColor(R.color.colorGreenExercise));
                         }
                         //a weight was dropped to an item
@@ -84,15 +80,15 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
 
                             TextView repetitions = (TextView) itemView.findViewById(R.id.txtview_exercise_repetition);
                             repetitions.setText("" + weight);
-                            contactList.get(contactList.size()-position).setAmount_trainingsplan_listitem(weight);
-                            contactList.get(contactList.size()-position).setAmount_background_color(mContext.getResources().getColor(R.color.colorGreenExercise));
+                            exerciseList.get(exerciseList.size()-position).setAmount_trainingsplan_listitem(weight);
+                            exerciseList.get(exerciseList.size()-position).setAmount_background_color(mContext.getResources().getColor(R.color.colorGreenExercise));
                             holder.getRlayout_repetition_background().setBackgroundColor(mContext.getResources().getColor(R.color.colorGreenExercise));
                         }
 
                         break;
                     case DragEvent.ACTION_DRAG_ENDED:
                         view.setVisibility(View.VISIBLE);
-                        broadcastCustomIntent(contactList.get(contactList.size()-position), position);
+                        broadcastCustomIntent(exerciseList.get(exerciseList.size()-position), position);
                     default:
                         break;
                 }
@@ -104,7 +100,7 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
 
     @Override
     public void onBindViewHolder(CreateTraining_Listitem_Holder holder, int position) {
-        CreateTraining_Listitem_Model ci = contactList.get(position);
+        CreateTraining_Listitem_Model ci = exerciseList.get(position);
         holder.getTxtview_exercise_name().setText(ci.getTitle_trainingsplan_listitem());
         holder.getTxtview_exercise_repetition().setText(Integer.toString(ci.getAmount_trainingsplan_listitem()));
         holder.getRlayout_exercise_background().setBackgroundColor(ci.getTitle_background_color());
@@ -114,7 +110,7 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
 
     @Override
     public int getItemCount() {
-        return contactList.size();
+        return exerciseList.size();
     }
 
     /**

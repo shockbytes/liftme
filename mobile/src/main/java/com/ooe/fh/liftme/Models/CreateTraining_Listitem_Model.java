@@ -1,11 +1,13 @@
 package com.ooe.fh.liftme.Models;
 
 
+import io.realm.RealmObject;
+
 /**
  * Created by Max on 04.11.2016.
  */
 
-public class CreateTraining_Listitem_Model {
+public class CreateTraining_Listitem_Model extends RealmObject {
 
     //Amount of repetitions
     private int amount_trainingsplan_listitem;
