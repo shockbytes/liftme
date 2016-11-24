@@ -22,10 +22,10 @@
     <string name="fragment_create_training_button_repetition_20">20</string>
     <string name="fragment_create_training_button_repetition_30">30</string>
     <string name="fragment_create_training_button_repetition_60">60</string>
-    <string name="fragment_create_training_button_exercise_benchpress">Benchpress</string>
+    <string name="fragment_create_training_button_exercise_benchpress">Bench Press</string>
     <string name="fragment_create_training_button_exercise_curls">Curls</string>
     <string name="fragment_create_training_button_exercise_butterfly">Butterfly</string>
-    <string name="fragment_create_training_button_exercise_situps">Situps</string>
+    <string name="fragment_create_training_button_exercise_pause">Pause</string>
     <string name="fragment_overview_detail_button_close">Close</string>
     <string name="fragment_starttraining_basic_textview_selectbutton">Select Training</string>
     <string name="fragment_starttraining_basic_textview_startcountdown_text">Countdown</string>
@@ -33,4 +33,11 @@
     <string name="string_empty"></string>
     <string name="standard_activity_splash_textview_better_life">A better life</string>
     <string name="standard_activity_splash_textview_loading">Loading...</string>
+    <string name="intent_filter_drag_broadcast_receiver">ON_ITEM_DRAG_HAPPENED</string>
+    <string name="exercise_list_model_example_text">Drag &amp; Drop</string>
+    <string name="intent_extra_title">MODEL_TITLE</string>
+    <string name="intent_extra_repetitions">MODEL_REPETITIONS</string>
+    <string name="intent_extra_position">MODEL_POSITION</string>
+    <string name="intent_extra_background_title">MODEL_TITLE_BACKGROUND</string>
+    <string name="intent_extra_background_repetitions">MODEL_REPETITIONS_BACKGROUND</string>
 </resources>

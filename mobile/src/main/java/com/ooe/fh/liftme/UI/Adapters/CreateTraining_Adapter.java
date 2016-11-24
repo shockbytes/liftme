@@ -70,18 +70,9 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
                         }
                         //a weight was dropped to an item
                         else if(view.getId() == R.id.btn_weight1 || view.getId() == R.id.btn_weight2 || view.getId() == R.id.btn_weight3 || view.getId() == R.id.btn_weight4) {
-                            Log.e("currently Dragged", " Weight, Tag: "+position);
-
-                            int weight = 0;
-                            switch(((Button)view).getText().toString()){
-                                case "10": weight=10; break;
-                                case "20": weight=20; break;
-                                case "30": weight=30; break;
-                                case "60": weight=60; break;
-                            }
-
+                            int weight = Integer.parseInt(((Button)view).getText().toString());
                             TextView repetitions = (TextView) itemView.findViewById(R.id.txtview_exercise_repetition);
-                            repetitions.setText("" + weight);
+                            repetitions.setText(((Button) view).getText());
                             exerciseList.get(exerciseList.size()-position).setAmount_trainingsplan_listitem(weight);
                             exerciseList.get(exerciseList.size()-position).setAmount_background_color(mContext.getResources().getColor(R.color.colorGreenExercise));
                             holder.getRlayout_repetition_background().setBackgroundColor(mContext.getResources().getColor(R.color.colorGreenExercise));
@@ -123,12 +114,12 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
     public void broadcastCustomIntent(CreateTraining_Listitem_Model model, int position) {
         Intent intent = new Intent();
         // add data to the Intent
-        intent.putExtra("MODEL_TITLE", model.getTitle_trainingsplan_listitem());
-        intent.putExtra("MODEL_WEIGHT", model.getAmount_trainingsplan_listitem());
-        intent.putExtra("MODEL_TITLE_BACKGROUND", model.getTitle_background_color());
-        intent.putExtra("MODEL_WEIGHT_BACKGROUND", model.getAmount_background_color());
-        intent.putExtra("MODEL_POSITION", position);
-        intent.setAction("ON_ITEM_DRAG_HAPPENED");
+        intent.putExtra(mContext.getResources().getString(R.string.intent_extra_title), model.getTitle_trainingsplan_listitem());
+        intent.putExtra(mContext.getResources().getString(R.string.intent_extra_repetitions), model.getAmount_trainingsplan_listitem());
+        intent.putExtra(mContext.getResources().getString(R.string.intent_extra_background_title), model.getTitle_background_color());
+        intent.putExtra(mContext.getResources().getString(R.string.intent_extra_background_repetitions), model.getAmount_background_color());
+        intent.putExtra(mContext.getResources().getString(R.string.intent_extra_position), position);
+        intent.setAction(mContext.getResources().getString(R.string.intent_filter_drag_broadcast_receiver));
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 

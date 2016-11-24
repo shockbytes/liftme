@@ -27,7 +27,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="20dp"
-            android:text="+"
+            android:text="@string/fragment_create_training_button_add_exercise"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="30dp" />
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@drawable/design_button_border_white"
-                android:text="Finish"
+                android:text="@string/fragment_create_training_button_finish"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -63,7 +63,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/design_round_button"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="EX"
+                android:text="@string/fragment_create_training_button_exercise"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -74,7 +74,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/design_round_button"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="REP"
+                android:text="@string/fragment_create_training_button_repetitions"
                 android:textColor="@color/textcolor_blackwhite" />
         </RelativeLayout>
     </RelativeLayout>
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Curls"
+                android:text="@string/fragment_create_training_button_exercise_curls"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Bench Press"
+                android:text="@string/fragment_create_training_button_exercise_benchpress"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Butterfly"
+                android:text="@string/fragment_create_training_button_exercise_butterfly"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Pause"
+                android:text="@string/fragment_create_training_button_exercise_pause"
                 android:textColor="@color/textcolor_blackwhite" />
 
 
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="10"
+                android:text="@string/fragment_create_training_button_repetition_10"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="20"
+                android:text="@string/fragment_create_training_button_repetition_20"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="30"
+                android:text="@string/fragment_create_training_button_repetition_30"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="60"
+                android:text="@string/fragment_create_training_button_repetition_60"
                 android:textColor="@color/textcolor_blackwhite" />
 
 
