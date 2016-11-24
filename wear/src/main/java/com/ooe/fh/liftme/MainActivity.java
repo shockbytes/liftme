@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -57,11 +58,15 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     private String mExercise;
     private int mRepetitions;
 
+    private boolean hasWorkoutStarted;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
+
+        hasWorkoutStarted = false;
 
         mMessageTypeExercise = getString(R.string.messageType_exercise);
         mMessageTypeEnd = getString(R.string.messageType_end);
@@ -99,7 +104,7 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
         super.onResume();
         googleApiClient.connect();
         getBestNode();
-        initializeHeartRate();
+        //initializeHeartRate();
     }
 
     @Override
@@ -183,45 +188,75 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
+
         String path = messageEvent.getPath();
         String data = new String(messageEvent.getData());
 
+        long vibIntensity = 0;
         if(path.equals(mMessageTypeStart)) {
-            initializeHeartRate();
-            initializeChronometer();
-        } else if(path.equals(mMessageTypeRepetition)) {
-            mRepetitions--;
-            setTextView(mExercise, mRepetitions);
+            handleMessageStart();
+            vibIntensity = 300;
         } else if(path.equals(mMessageTypeExercise)) {
-            String[] stringParts = data.split("_");
-            mExercise = stringParts[0];
-            mRepetitions = Integer.parseInt(stringParts[1]);
-
-            if(mExercise.equals(getString(R.string.pause))) {
-                CountDownTimer timer = new CountDownTimer(mRepetitions, 1000)  {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        setTextView(mExercise, (int) millisUntilFinished);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        setTextView(getString(R.string.pauseFinished), -1);
-                    }
-                }.start();
-            } else {
-                setTextView(mExercise, mRepetitions);
-            }
+            handleMessageExercise(data);
+            vibIntensity = 300;
+        } else if(path.equals(mMessageTypeRepetition)) {
+            handleMessageRepetitions();
+            vibIntensity = 150;
         } else if(path.equals(mMessageTypeEnd)) {
-            mChronometer.stop();
-            mExercise = getString(R.string.finish_message);
-            mRepetitions = -1;
+            handleMessageEnd();
+            vibIntensity = 500;
+        }
+
+        // Always vibrate, just with different intensity
+        vibrator.vibrate(vibIntensity);
+    }
+
+    private void handleMessageStart() {
+        hasWorkoutStarted = true;
+        initializeHeartRate();
+        initializeChronometer();
+    }
+
+    private void handleMessageRepetitions() {
+        mRepetitions--;
+        setTextView(mExercise, mRepetitions);
+    }
+
+    private void handleMessageExercise(String data) {
+
+        String[] stringParts = data.split("_");
+        mExercise = stringParts[0];
+        mRepetitions = Integer.parseInt(stringParts[1]);
+
+        if(mExercise.equals(getString(R.string.pause))) {
+            new CountDownTimer(mRepetitions*1000, 1000)  {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    long out = millisUntilFinished / 1000L;
+                    setTextView(mExercise, (int) out);
+                }
+
+                @Override
+                public void onFinish() {
+                    setTextView(getString(R.string.pauseFinished), -1);
+                }
+            }.start();
+        } else {
             setTextView(mExercise, mRepetitions);
         }
     }
 
+    private void handleMessageEnd() {
+        hasWorkoutStarted = false;
+        mChronometer.stop();
+        mExercise = getString(R.string.finish_message);
+        mRepetitions = -1;
+        setTextView(mExercise, mRepetitions);
+
+    }
+
     private void setTextView(String _exercise, int _rep) {
-        if(_rep != -1) {
+        if(_rep > -1) {
             textWorkout.setText(_rep + " " + _exercise);
         } else if(_exercise.equals(getString(R.string.pause))) {
 
@@ -231,6 +266,7 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     }
 
     private void initializeChronometer() {
+        mChronometer.setBase(SystemClock.elapsedRealtime());
         mChronometer.start();
     }
 
@@ -247,12 +283,15 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == sensorReqCode && permissions[0].equals(Manifest.permission.BODY_SENSORS) &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            initializeHeartRate();
+            if (hasWorkoutStarted) {
+                initializeHeartRate();
+            }
         }
     }
 

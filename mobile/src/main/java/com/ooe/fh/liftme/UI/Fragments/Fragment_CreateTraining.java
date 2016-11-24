@@ -5,30 +5,24 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
 import com.ooe.fh.liftme.Models.CreateTraining_Listitem_Model;
+import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
 import com.ooe.fh.liftme.R;
 import com.ooe.fh.liftme.UI.Activity.MainActivity;
 import com.ooe.fh.liftme.UI.Adapters.CreateTraining_Adapter;
-import com.ooe.fh.liftme.UI.Adapters.OverviewTraining_Adapter;
 import com.ooe.fh.liftme.application.AppClass;
-import com.ooe.fh.liftme.utils.Listeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +82,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
     Button btn_weight_20;
 
     @Bind(R.id.btn_weight4)
-    Button btn_weight_60;
+    Button btn_weight_5;
 
     //Primitive types
     private int mSelectedColor;
@@ -199,7 +193,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
         btn_weight_10.setOnLongClickListener(mNestedItemTouchListener);
         btn_weight_15.setOnLongClickListener(mNestedItemTouchListener);
         btn_weight_20.setOnLongClickListener(mNestedItemTouchListener);
-        btn_weight_60.setOnLongClickListener(mNestedItemTouchListener);
+        btn_weight_5.setOnLongClickListener(mNestedItemTouchListener);
 
         setHasOptionsMenu(true);
     }
@@ -301,13 +295,13 @@ public class Fragment_CreateTraining extends Global_Fragment{
                 //Name restrictions at least 3 letters and maximal 9 letters
                 if(etxt_name.getText().toString().length() > 3 && etxt_name.getText().toString().length() < 10){
                     AppClass.overviewTraining_Listitem_models.add(new OverviewTraining_Listitem_Model(mSelectedColor,etxt_name.getText().toString(),new ArrayList(mItemData)));
-                    mItemData.clear();
                     ((MainActivity)getActivity()).getmViewPager().setCurrentItem(1);
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
                     realm.copyToRealm(new OverviewTraining_Listitem_Model(mSelectedColor,etxt_name.getText().toString(),mItemData));
                     realm.commitTransaction();
                     alertDialog.cancel();
+                    mItemData.clear();
                 }else{
                     etxt_name.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 }
