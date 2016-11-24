@@ -49,10 +49,10 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     private Chronometer mChronometer;
     private TextView textHeartrate;
 
-    private String mMessageTypeExercise = getString(R.string.messageType_exercise);
-    private String mMessageTypeEnd = getString(R.string.messageType_end);
-    private String mMessageTypeStart = getString(R.string.messageType_start);
-    private String mMessageTypeRepetition = getString(R.string.messageType_rep);
+    private String mMessageTypeExercise;
+    private String mMessageTypeEnd;
+    private String mMessageTypeStart;
+    private String mMessageTypeRepetition;
 
     private String mExercise;
     private int mRepetitions;
@@ -62,6 +62,11 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
+
+        mMessageTypeExercise = getString(R.string.messageType_exercise);
+        mMessageTypeEnd = getString(R.string.messageType_end);
+        mMessageTypeStart = getString(R.string.messageType_start);
+        mMessageTypeRepetition = getString(R.string.messageType_rep);
 
         textWorkout = (TextView) findViewById(R.id.text_workout);
         mChronometer = (Chronometer) findViewById(R.id.text_chronometer);

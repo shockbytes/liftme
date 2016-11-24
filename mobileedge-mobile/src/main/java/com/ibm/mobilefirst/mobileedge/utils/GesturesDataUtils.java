@@ -58,7 +58,8 @@ public class GesturesDataUtils {
         for (String gesture : savedGestureNames){
             try {
                 if (ApplicationPreferences.isGestureEnabled(context,gesture)){
-                    result.add(context.getAssets().open(gesture + GESTURE_NAME_SUFFIX));
+                    String file = "exercises/" + gesture + GESTURE_NAME_SUFFIX;
+                    result.add(context.getAssets().open(file));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
