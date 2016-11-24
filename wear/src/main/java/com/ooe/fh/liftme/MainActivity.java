@@ -7,11 +7,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.wearable.activity.WearableActivity;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -44,8 +46,16 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     private int sensorReqCode = 103;
 
     private TextView textWorkout;
-    private TextView textDuration;
+    private Chronometer mChronometer;
     private TextView textHeartrate;
+
+    private String mMessageTypeExercise = getString(R.string.messageType_exercise);
+    private String mMessageTypeEnd = getString(R.string.messageType_end);
+    private String mMessageTypeStart = getString(R.string.messageType_start);
+    private String mMessageTypeRepetition = getString(R.string.messageType_rep);
+
+    private String mExercise;
+    private int mRepetitions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +64,7 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
         setAmbientEnabled();
 
         textWorkout = (TextView) findViewById(R.id.text_workout);
-        textDuration = (TextView) findViewById(R.id.text_duration);
+        mChronometer = (Chronometer) findViewById(R.id.text_chronometer);
         textHeartrate = (TextView) findViewById(R.id.text_heart_rate);
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -168,10 +178,55 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-
-        // TODO Handle messages from handheld
         String path = messageEvent.getPath();
+        String data = new String(messageEvent.getData());
 
+        if(path.equals(mMessageTypeStart)) {
+            initializeHeartRate();
+            initializeChronometer();
+        } else if(path.equals(mMessageTypeRepetition)) {
+            mRepetitions--;
+            setTextView(mExercise, mRepetitions);
+        } else if(path.equals(mMessageTypeExercise)) {
+            String[] stringParts = data.split("_");
+            mExercise = stringParts[0];
+            mRepetitions = Integer.parseInt(stringParts[1]);
+
+            if(mExercise.equals(getString(R.string.pause))) {
+                CountDownTimer timer = new CountDownTimer(mRepetitions, 1000)  {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        setTextView(mExercise, (int) millisUntilFinished);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        setTextView(getString(R.string.pauseFinished), -1);
+                    }
+                }.start();
+            } else {
+                setTextView(mExercise, mRepetitions);
+            }
+        } else if(path.equals(mMessageTypeEnd)) {
+            mChronometer.stop();
+            mExercise = getString(R.string.finish_message);
+            mRepetitions = -1;
+            setTextView(mExercise, mRepetitions);
+        }
+    }
+
+    private void setTextView(String _exercise, int _rep) {
+        if(_rep != -1) {
+            textWorkout.setText(_rep + " " + _exercise);
+        } else if(_exercise.equals(getString(R.string.pause))) {
+
+        } else {
+            textWorkout.setText(_exercise);
+        }
+    }
+
+    private void initializeChronometer() {
+        mChronometer.start();
     }
 
     @Override
@@ -200,7 +255,7 @@ public class MainActivity extends WearableActivity implements GoogleApiClient.Co
     public void onSensorChanged(SensorEvent event) {
 
         int heartrate = (int) event.values[0];
-        String text = (heartrate > 0) ? heartrate + " bpm" : "--- pbm";
+        String text = (heartrate > 0) ? heartrate + " bpm" : "--- bpm";
         textHeartrate.setText(text);
     }
 

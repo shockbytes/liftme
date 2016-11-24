@@ -8,8 +8,8 @@
     android:background="@drawable/background"
     tools:deviceIds="wear">
 
-    <TextView
-        android:id="@+id/text_duration"
+    <Chronometer
+        android:id="@+id/text_chronometer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"

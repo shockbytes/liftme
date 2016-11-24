@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Liftme</string>
     <string name="hello_world">Hello World!</string>
+    <string name="messageType_exercise">exercise</string>
+    <string name="messageType_end">end</string>
+    <string name="messageType_start">start</string>
+    <string name="messageType_rep">repetition</string>
+    <string name="exercise_curls">Curls</string>
+    <string name="exercise_butterfly">Butterfly</string>
+    <string name="finish_message">Great Workout!</string>
+    <string name="pause">Pause</string>
+    <string name="pauseFinished">Next!</string>
 </resources>
