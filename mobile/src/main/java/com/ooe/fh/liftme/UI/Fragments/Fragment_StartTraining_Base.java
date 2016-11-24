@@ -124,7 +124,7 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
      * Starts countdown of training
      */
     private void startTimer(){
-        txtview_countdowntext_startTraining.setText("");
+        txtview_countdowntext_startTraining.setText(getResources().getString(R.string.string_empty));
         Thread t = new Thread() {
             int countdown = 6;
             @Override
@@ -142,7 +142,7 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
                                     }
                                 }
                                 else if(countdown == 1){
-                                    txtview_countdown_startTraining.setText("GO");
+                                    txtview_countdown_startTraining.setText(getResources().getString(R.string.textview_start_training_go));
 
                                 }else {
                                     txtview_countdown_startTraining.setText(Integer.toString(countdown-1));

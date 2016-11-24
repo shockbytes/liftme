@@ -63,7 +63,6 @@ public class Fragment_StartTraining extends Global_Fragment implements Listeners
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (getView() != null) {
-            Log.e("TestMessage----------","----------TestMessage");
         }
     }
 

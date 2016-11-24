@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:text="Exercise"
+        android:text="@string/create_training_listitem_textview_exercise_name"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"
@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/design_button_border_white"
-        android:text="Close"
+        android:text="@string/fragment_overview_detail_button_close"
         android:textColor="@color/textcolor_blackwhite" />
 
 </RelativeLayout>
