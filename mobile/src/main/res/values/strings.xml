@@ -21,7 +21,7 @@
     <string name="fragment_create_training_button_repetition_10">10</string>
     <string name="fragment_create_training_button_repetition_20">20</string>
     <string name="fragment_create_training_button_repetition_30">30</string>
-    <string name="fragment_create_training_button_repetition_60">60</string>
+    <string name="fragment_create_training_button_repetition_60">5</string>
     <string name="fragment_create_training_button_exercise_benchpress">Bench Press</string>
     <string name="fragment_create_training_button_exercise_curls">Curls</string>
     <string name="fragment_create_training_button_exercise_butterfly">Butterfly</string>
