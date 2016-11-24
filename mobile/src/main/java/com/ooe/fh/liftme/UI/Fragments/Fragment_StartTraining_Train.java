@@ -13,14 +13,18 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.Wearable;
 import com.ibm.mobilefirst.mobileedge.MobileEdgeController;
 import com.ibm.mobilefirst.mobileedge.connectors.AndroidWear;
 import com.ibm.mobilefirst.mobileedge.interpretation.Classification;
 import com.ibm.mobilefirst.mobileedge.interpretation.InterpretationListener;
 import com.ibm.mobilefirst.mobileedge.utils.GesturesDataUtils;
+import com.ooe.fh.liftme.Models.CreateTraining_Listitem_Model;
 import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
 import com.ooe.fh.liftme.Models.TrainExercise_Page_Model;
 import com.ooe.fh.liftme.R;
+import com.ooe.fh.liftme.UI.Activity.MainActivity;
 import com.ooe.fh.liftme.UI.Adapters.Train_PagerAdapter;
 import com.ooe.fh.liftme.UI.Layout.Elements.TrainExercise_Page_Holder;
 
@@ -55,10 +59,13 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
 
     //Primitive types
     int mActuallPage = 0;
+    int mActuallRepetition = 0;
 
     private AndroidWear wearConnector;
     private MobileEdgeController wearController;
     private Classification classification;
+    private GoogleApiClient mGoogleApiClient;
+    private String mNodeID;
 
     public static Fragment_StartTraining_Train newInstance(Context context,
                                                            OverviewTraining_Listitem_Model _model) {
@@ -83,8 +90,12 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mGoogleApiClient = ((MainActivity)getActivity()).getGoogleApiClient();
+        mNodeID = ((MainActivity)getActivity()).getNodeId();
         startChronometer();
         txtview_train_title.setText(model.getName_trainingsplan());
+
         mPagerAdapter = new Train_PagerAdapter();
         createAllPage();
         pager_train.setAdapter(mPagerAdapter);
@@ -102,6 +113,7 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     public void onResume() {
         super.onResume();
     }
+
 
     /**
      * Starts the chronometer
@@ -125,9 +137,9 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
 
     }
 
-    private void updateViewText(String updatedText) {
+    private void updateViewText() {
+        mActuallRepetition++;
         TextView exercise = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_exercise_name_pager);
-
         if(exercise.getText().toString().equals("Pause")) {
             pauseTimer();
             mActuallPage++;
@@ -136,11 +148,18 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
             TextView toDoRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_todorepetition);
             TextView actualRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_actualrepetition);
 
-            if (Integer.parseInt(updatedText) == Integer.parseInt(actualRep.getText().toString())) {
+            if (mActuallRepetition == Integer.parseInt(actualRep.getText().toString())) {
                 mActuallPage++;
+                mActuallRepetition = 0;
                 pager_train.setCurrentItem(mActuallPage);
+                exercise = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_exercise_name_pager);
+                toDoRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_todorepetition);
+                String data = exercise.getText().toString() + "_" + toDoRep.getText().toString();
+                Wearable.MessageApi.sendMessage(mGoogleApiClient,mNodeID,"exercise",data.getBytes());
+
+                //ToDO check end exercise
             } else {
-                toDoRep.setText(updatedText);
+                toDoRep.setText(Integer.toString(mActuallRepetition));
             }
         }
     }
@@ -201,6 +220,14 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     public void onStart() {
         super.onStart();
         startExerciseRecognition();
+
+        Toast.makeText(getContext(), "isConnected: " + mGoogleApiClient.isConnected(),Toast.LENGTH_LONG).show();
+        Wearable.MessageApi.sendMessage(mGoogleApiClient,mNodeID,"start",null);
+
+        //CreateTraining_Listitem_Model first = model.getExercises_traingsplan().get(0);
+        //String data = first.getTitle_trainingsplan_listitem() + "_" + first.getAmount_trainingsplan_listitem();
+        String data = "Butterfly_10";
+        Wearable.MessageApi.sendMessage(mGoogleApiClient,mNodeID,"exercise",data.getBytes());
     }
 
     @Override
@@ -255,14 +282,24 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
         String score = json.optString("score");
 
         Toast.makeText(getActivity(), "Gesture recognized: " + gesture + " / " + score +"%", Toast.LENGTH_LONG).show();
+        TextView exercise = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_exercise_name_pager);
 
         // TODO Check if current exercise is selected (do not count different reps)
         if (gesture.contains(getString(R.string.exercise_recognition_curl))) {
-            // TODO update model and send message to wearable
+            if(exercise.getText().toString().equals(getResources().getString(R.string.fragment_create_training_button_exercise_curls))) {
+                updateViewText();
+                Wearable.MessageApi.sendMessage(mGoogleApiClient,mNodeID,"repetition",null);
+            }
         } else if (gesture.contains(getString(R.string.exercise_recognition_benchpress))) {
-            // TODO update model and send message to wearable
+            if(exercise.getText().toString().equals(getResources().getString(R.string.fragment_create_training_button_exercise_benchpress))) {
+                updateViewText();
+                Wearable.MessageApi.sendMessage(mGoogleApiClient,mNodeID,"repetition",null);
+            }
         } else if (gesture.contains(getString(R.string.exercise_recognition_butterfly))) {
-            // TODO update model and send message to wearable
+            if(exercise.getText().toString().equals(getResources().getString(R.string.fragment_create_training_button_exercise_butterfly))) {
+                updateViewText();
+                Wearable.MessageApi.sendMessage(mGoogleApiClient,mNodeID,"repetition",null);
+            }
         }
     }
 

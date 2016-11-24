@@ -184,7 +184,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
                 int color = getContext().getResources().getColor(R.color.colorRedExercise);
                 mItemData.add(0,new CreateTraining_Listitem_Model(getResources().getString(R.string.exercise_list_model_example_text) + mItemData.size(), 0, color, color, mItemData.size()+1));
                 mAdapter.notifyItemInserted(0);
-                //llm.scrollToPositionWithOffset(0,0);
+                llm.scrollToPositionWithOffset(0,0);
                 recycleview_createTrainingsplan.invalidate();
      }
         });
