@@ -84,8 +84,8 @@ public class Fragment_StartTraining extends Global_Fragment implements Listeners
     }
 
     @Override
-    public void onStartTrainingStartButtonClick() {
-        Fragment_StartTraining_Train fragment = Fragment_StartTraining_Train.newInstance(getContext());
+    public void onStartTrainingStartButtonClick(OverviewTraining_Listitem_Model model) {
+        Fragment_StartTraining_Train fragment = Fragment_StartTraining_Train.newInstance(getContext(), model);
         addFragment(fragment, true);
     }
 

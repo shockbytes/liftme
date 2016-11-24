@@ -7,28 +7,36 @@
     android:background="@drawable/bg_starttraining"
     android:paddingBottom="30dp">
 
-
     <RelativeLayout
-        android:id="@+id/rlayout_background_selectbutton"
-        android:layout_width="250dp"
-        android:layout_height="100dp"
+        android:id="@+id/rlayout_border_selectbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/rlayout_countdown"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/design_button_border_white">
+        android:background="@drawable/design_button_border_white"
+        android:padding="2dp">
 
-        <TextView
-            android:id="@+id/txtview_selecttraining_selectbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"
-            android:text="Select Training"
-            android:textAllCaps="false"
-            android:textColor="@color/textcolor_blackwhite"
-            android:textSize="30dp" />
+        <RelativeLayout
+            android:id="@+id/rlayout_background_selectbutton"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/transparent">
+
+            <TextView
+                android:id="@+id/txtview_selecttraining_selectbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:text="Select Training"
+                android:textAllCaps="false"
+                android:textColor="@color/textcolor_blackwhite"
+                android:textSize="30dp" />
 
 
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
