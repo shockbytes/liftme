@@ -74,7 +74,7 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/design_round_button"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="KG"
+                android:text="REP"
                 android:textColor="@color/textcolor_blackwhite" />
         </RelativeLayout>
     </RelativeLayout>
@@ -95,29 +95,38 @@
 
             <Button
                 android:id="@+id/btn_exercise1"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Pushups"
+                android:text="Curls"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
                 android:id="@+id/btn_exercise2"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Situps"
+                android:text="Bench Press"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
                 android:id="@+id/btn_exercise3"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="Burpes"
+                android:text="Butterfly"
+                android:textColor="@color/textcolor_blackwhite" />
+
+            <Button
+                android:id="@+id/btn_exercise4"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@drawable/design_button_border_white"
+                android:text="Pause"
                 android:textColor="@color/textcolor_blackwhite" />
 
 
@@ -145,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="10KG"
+                android:text="10"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -154,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="20KG"
+                android:text="20"
                 android:textColor="@color/textcolor_blackwhite" />
 
             <Button
@@ -163,7 +172,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:background="@drawable/design_button_border_white"
-                android:text="30KG"
+                android:text="30"
+                android:textColor="@color/textcolor_blackwhite" />
+
+            <Button
+                android:id="@+id/btn_weight4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@drawable/design_button_border_white"
+                android:text="60"
                 android:textColor="@color/textcolor_blackwhite" />
 
 

@@ -75,6 +75,9 @@ public class Fragment_CreateTraining extends Global_Fragment{
     @Bind(R.id.btn_exercise3)
     Button btn_exercise_burpes;
 
+    @Bind(R.id.btn_exercise4)
+    Button btn_exercise_pause;
+
     @Bind(R.id.btn_weight1)
     Button btn_weight_10;
 
@@ -83,6 +86,9 @@ public class Fragment_CreateTraining extends Global_Fragment{
 
     @Bind(R.id.btn_weight3)
     Button btn_weight_20;
+
+    @Bind(R.id.btn_weight4)
+    Button btn_weight_60;
 
     //Primitive types
     private int mSelectedColor;
@@ -150,7 +156,11 @@ public class Fragment_CreateTraining extends Global_Fragment{
         btn_finish_createTrainingsplan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishNamingDialog();
+                if(allItemsComplete() && mItemData.size() != 0) {
+                    finishNamingDialog();
+                }else{
+                    defaultFinishDialog();
+                }
             }
         });
 
@@ -172,9 +182,9 @@ public class Fragment_CreateTraining extends Global_Fragment{
             @Override
             public void onClick(View view) {
                 int color = getContext().getResources().getColor(R.color.colorRedExercise);
-                mItemData.add(0,new CreateTraining_Listitem_Model("Drag & Drop " + mItemData.size(), 0, color, color, mItemData.size()+1));
+                mItemData.add(0,new CreateTraining_Listitem_Model("Drag & Drop" + mItemData.size(), 0, color, color, mItemData.size()+1));
                 mAdapter.notifyItemInserted(0);
-                llm.scrollToPositionWithOffset(0,0);
+                //llm.scrollToPositionWithOffset(0,0);
                 recycleview_createTrainingsplan.invalidate();
      }
         });
@@ -183,10 +193,13 @@ public class Fragment_CreateTraining extends Global_Fragment{
         btn_exercise_pushup.setOnLongClickListener(mNestedItemTouchListener);
         btn_exercise_situp.setOnLongClickListener(mNestedItemTouchListener);
         btn_exercise_burpes.setOnLongClickListener(mNestedItemTouchListener);
+        btn_exercise_pause.setOnLongClickListener(mNestedItemTouchListener);
+
 
         btn_weight_10.setOnLongClickListener(mNestedItemTouchListener);
         btn_weight_15.setOnLongClickListener(mNestedItemTouchListener);
         btn_weight_20.setOnLongClickListener(mNestedItemTouchListener);
+        btn_weight_60.setOnLongClickListener(mNestedItemTouchListener);
 
         setHasOptionsMenu(true);
     }
@@ -215,21 +228,6 @@ public class Fragment_CreateTraining extends Global_Fragment{
         super.onDestroy();
     }
 
-    /**
-     * Add fake data to listview
-     */
-    private void addFakeData() {
-        int color = getContext().getResources().getColor(R.color.colorRedExercise);
-        CreateTraining_Listitem_Model head1 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
-        CreateTraining_Listitem_Model head2 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
-        CreateTraining_Listitem_Model head3 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
-        CreateTraining_Listitem_Model head4 = new CreateTraining_Listitem_Model("Exercise X", 0, color, color, mItemData.size());
-
-        mItemData.add(head1);
-        mItemData.add(head2);
-        mItemData.add(head3);
-        mItemData.add(head4);
-    }
 
     /**
      * Shows Naming-Dialog, if the user finished creating trainingsplan
@@ -302,7 +300,8 @@ public class Fragment_CreateTraining extends Global_Fragment{
             public void onClick(View v) {
                 //Name restrictions at least 3 letters and maximal 9 letters
                 if(etxt_name.getText().toString().length() > 3 && etxt_name.getText().toString().length() < 10){
-                    AppClass.overviewTraining_Listitem_models.add(new OverviewTraining_Listitem_Model(mSelectedColor,etxt_name.getText().toString(),mItemData));
+                    AppClass.overviewTraining_Listitem_models.add(new OverviewTraining_Listitem_Model(mSelectedColor,etxt_name.getText().toString(),new ArrayList(mItemData)));
+                    mItemData.clear();
                     ((MainActivity)getActivity()).getmViewPager().setCurrentItem(1);
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
@@ -312,6 +311,26 @@ public class Fragment_CreateTraining extends Global_Fragment{
                 }else{
                     etxt_name.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 }
+            }
+        });
+    }
+
+    /**
+     * Shows DefaultFinish-Dialog, if the user finished creating trainingsplan
+     */
+    private void defaultFinishDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.alert_defaultfinish_createtrainingsplan, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        final Button btn_cancel = (Button) dialogView.findViewById(R.id.btn_cancel_alert_createtraining);
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                alertDialog.cancel();
             }
         });
     }
@@ -346,6 +365,12 @@ public class Fragment_CreateTraining extends Global_Fragment{
                 mItemData.get(mItemData.size()-positon).setTitle_trainingsplan_listitem(title);
                 mItemData.get(mItemData.size()-positon).setTitle_background_color(title_background);
                 mItemData.get(mItemData.size()-positon).setAmount_background_color(weight_background);
+
+                if(!mItemData.get(mItemData.size()-positon).getTitle_trainingsplan_listitem().equals("Drag & Drop") &&
+                        mItemData.get(mItemData.size()-positon).getAmount_trainingsplan_listitem() != 0
+                        ){
+                    mItemData.get(mItemData.size()-positon).setCompleteModel(true);
+                }
             }
 
         }
@@ -357,14 +382,29 @@ public class Fragment_CreateTraining extends Global_Fragment{
     private class NestedItemTouchListener implements View.OnLongClickListener {
 
         public boolean onLongClick(View view) {
-
-            ClipData data = ClipData.newPlainText("", "");
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-                    view);
-            view.startDrag(data, shadowBuilder, view, 0);
-            view.setVisibility(View.INVISIBLE);
-            return true;
+            if(mItemData.size() != 0) {
+                ClipData data = ClipData.newPlainText("", "");
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
+                        view);
+                view.startDrag(data, shadowBuilder, view, 0);
+                view.setVisibility(View.INVISIBLE);
+                return true;
+            }
+            return false;
         }
+    }
+
+    /**
+     * Checks if all items are complete
+     * @return True if all items are complete, otherwise false
+     */
+    private boolean allItemsComplete(){
+        for(int i = 0; i < mItemData.size(); i++){
+            if(!mItemData.get(i).isCompleteModel()){
+                return false;
+            }
+        }
+        return true;
     }
 
 }

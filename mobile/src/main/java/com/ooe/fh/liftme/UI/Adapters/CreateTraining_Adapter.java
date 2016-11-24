@@ -24,7 +24,8 @@ import io.realm.RealmObject;
  * Created by Max on 04.11.2016.
  */
 
-public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_Listitem_Holder> {
+public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_Listitem_Holder>
+        implements View.OnDragListener {
 
     private List<CreateTraining_Listitem_Model> exerciseList;
     private Context mContext;
@@ -59,7 +60,7 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
                     case DragEvent.ACTION_DROP:
 
                         //an exercise was dropped to an item
-                        if(view.getId() == R.id.btn_exercise1 || view.getId() == R.id.btn_exercise2 || view.getId() == R.id.btn_exercise3) {
+                        if(view.getId() == R.id.btn_exercise1 || view.getId() == R.id.btn_exercise2 || view.getId() == R.id.btn_exercise3 || view.getId() == R.id.btn_exercise4) {
 
                             TextView name = (TextView) itemView.findViewById(R.id.txtview_exercise_name);
                             name.setText(((Button)view).getText().toString());
@@ -68,14 +69,15 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
                             holder.getRlayout_exercise_background().setBackgroundColor(mContext.getResources().getColor(R.color.colorGreenExercise));
                         }
                         //a weight was dropped to an item
-                        else if(view.getId() == R.id.btn_weight1 || view.getId() == R.id.btn_weight2 || view.getId() == R.id.btn_weight3) {
+                        else if(view.getId() == R.id.btn_weight1 || view.getId() == R.id.btn_weight2 || view.getId() == R.id.btn_weight3 || view.getId() == R.id.btn_weight4) {
                             Log.e("currently Dragged", " Weight, Tag: "+position);
 
                             int weight = 0;
                             switch(((Button)view).getText().toString()){
-                                case "10KG": weight=10; break;
-                                case "20KG": weight=20; break;
-                                case "30KG": weight=30; break;
+                                case "10": weight=10; break;
+                                case "20": weight=20; break;
+                                case "30": weight=30; break;
+                                case "60": weight=60; break;
                             }
 
                             TextView repetitions = (TextView) itemView.findViewById(R.id.txtview_exercise_repetition);
@@ -131,4 +133,23 @@ public class CreateTraining_Adapter extends RecyclerView.Adapter<CreateTraining_
     }
 
 
+    @Override
+    public boolean onDrag(View view, DragEvent dragEvent) {
+        View tempView = (View) dragEvent.getLocalState();
+        switch (dragEvent.getAction()) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                break;
+            case DragEvent.ACTION_DRAG_ENTERED:
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                break;
+            case DragEvent.ACTION_DROP:
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                tempView.setVisibility(View.VISIBLE);
+            default:
+                break;
+        }
+        return true;
+    }
 }

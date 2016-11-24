@@ -13,6 +13,8 @@ public class CreateTraining_Listitem_Model extends RealmObject {
     private int amount_trainingsplan_listitem;
     //Name of exercise
     private String title_trainingsplan_listitem;
+    //Exercise and repetition inserted
+    private boolean completeModel;
 
     //background colors
     private int title_background_color;
@@ -33,6 +35,7 @@ public class CreateTraining_Listitem_Model extends RealmObject {
         this.title_background_color = title_background_color;
         this.amount_background_color = amount_background_color;
         this.positionAddedToRecycleView = positionAddedToRecycleView;
+        completeModel = false;
     }
 
     public int getAmount_trainingsplan_listitem() {
@@ -73,5 +76,13 @@ public class CreateTraining_Listitem_Model extends RealmObject {
 
     public void setpositionAddedToRecycleView(int positionAddedToRecycleView) {
         this.positionAddedToRecycleView = positionAddedToRecycleView;
+    }
+
+    public boolean isCompleteModel() {
+        return completeModel;
+    }
+
+    public void setCompleteModel(boolean completeModel) {
+        this.completeModel = completeModel;
     }
 }

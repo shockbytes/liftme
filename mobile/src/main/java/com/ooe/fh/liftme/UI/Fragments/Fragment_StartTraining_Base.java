@@ -51,7 +51,7 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
     RelativeLayout rlayout_background_selectbutton;
 
     //Primitive types
-    private int mSelectedTraining;
+    private int mSelectedTraining = -1;
 
     //Composite types
     private List<OverviewTraining_Listitem_Model> mItemData;
@@ -84,17 +84,20 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
         btn_start_startTraining.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).getmViewPager().setPagingEnabled(false);
-                rlayout_background_selectbutton.setEnabled(false);
-                btn_start_startTraining.setEnabled(false);
-                startTimer();
+                if(mSelectedTraining == -1){
+
+                }else {
+                    ((MainActivity) getActivity()).getmViewPager().setPagingEnabled(false);
+                    rlayout_background_selectbutton.setEnabled(false);
+                    btn_start_startTraining.setEnabled(false);
+                    startTimer();
+                }
             }
         });
 
         rlayout_background_selectbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ToDo - Show all created trainings
                 selectTrainingDialog();
             }
         });
@@ -135,7 +138,7 @@ public class Fragment_StartTraining_Base extends Global_Fragment{
                             public void run() {
                                 if(countdown == 0){
                                     if (clickListener != null) {
-                                        clickListener.onStartTrainingStartButtonClick();
+                                        clickListener.onStartTrainingStartButtonClick(mItemData.get(mSelectedTraining));
                                     }
                                 }
                                 else if(countdown == 1){

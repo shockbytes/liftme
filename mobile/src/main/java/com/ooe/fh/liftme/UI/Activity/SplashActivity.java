@@ -52,7 +52,6 @@ public class SplashActivity extends AppCompatActivity {
                 //this will be done every 1000 milliseconds ( 1 seconds )
                 int progress = (int)(3000 - millisUntilFinished) / 30;
                 progressBar.setProgress(progress);
-                Log.e("Progress: ", Integer.toString(progress));
             }
 
             @Override
