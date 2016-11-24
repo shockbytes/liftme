@@ -23,7 +23,7 @@
             android:paddingBottom="20dp"
             android:paddingLeft="15dp"
             android:paddingTop="20dp"
-            android:text="Exercise"
+            android:text="@string/create_training_listitem_textview_exercise_name"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="30dp" />
@@ -36,7 +36,7 @@
             android:paddingBottom="20dp"
             android:paddingRight="15dp"
             android:paddingTop="20dp"
-            android:text="10"
+            android:text="@string/create_training_listitem_textview_exercise_repetition"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="30dp" />

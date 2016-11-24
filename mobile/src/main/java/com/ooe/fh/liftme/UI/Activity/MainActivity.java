@@ -22,14 +22,12 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
-import com.ooe.fh.liftme.Models.OverviewTraining_Listitem_Model;
+
 import com.ooe.fh.liftme.R;
 import com.ooe.fh.liftme.UI.Adapters.SectionsPagerAdapter;
 import com.ooe.fh.liftme.UI.Layout.Elements.CustomViewPager;
-import com.ooe.fh.liftme.application.AppClass;
 import com.ooe.fh.liftme.utils.Listeners;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -47,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Bind(R.id.container)
     CustomViewPager mViewPager;
 
-    //Adapters
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
     private String mNodeId;
     private GoogleApiClient mGoogleApiClient;
 
@@ -62,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ButterKnife.bind(this, this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        tablayout.addTab(tablayout.newTab().setText("Create"));
-        tablayout.addTab(tablayout.newTab().setText("Start"));
-        tablayout.addTab(tablayout.newTab().setText("Overview"));
+        getSupportActionBar().setTitle(getResources().getString(R.string.string_empty));
+        tablayout.addTab(tablayout.newTab().setText(getResources().getString(R.string.tab_title_create)));
+        tablayout.addTab(tablayout.newTab().setText(getResources().getString(R.string.tab_title_start)));
+        tablayout.addTab(tablayout.newTab().setText(getResources().getString(R.string.tab_title_overview)));
 
         mViewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(), tablayout.getTabCount()));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
@@ -84,12 +79,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        //mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(1);
-
-        //AppClass.overviewTraining_Listitem_models = new ArrayList<OverviewTraining_Listitem_Model>();
 
         initializeGoogleApiClient();
     }

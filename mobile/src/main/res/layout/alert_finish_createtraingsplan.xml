@@ -21,7 +21,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
-        android:text="Complete training"
+        android:text="@string/alert_finish_createtraining_textview_title"
         android:textStyle="bold"
         android:textColor="@color/colorRed"
         android:textAllCaps="true"
@@ -37,7 +37,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="Select name and color of your training: "
+        android:text="@string/alert_finish_createtraining_textview_message"
         />
 
     <LinearLayout
@@ -92,7 +92,7 @@
             android:layout_weight="0.5"
             android:textColor="@color/white"
             android:background="@color/transparent"
-            android:text="Cancel"
+            android:text="@string/alert_button_cancel"
             ></Button>
 
         <Button
@@ -102,7 +102,7 @@
             android:layout_weight="0.5"
             android:textColor="@color/white"
             android:background="@color/transparent"
-            android:text="Done"
+            android:text="@string/alert_finish_createtraining_button_done"
             ></Button>
 
     </LinearLayout>

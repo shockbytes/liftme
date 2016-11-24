@@ -27,6 +27,8 @@ public class AppClass extends Application {
         super.onCreate();
         AppClass.context = getApplicationContext();
         overviewTraining_Listitem_models = new ArrayList<OverviewTraining_Listitem_Model>();
+
+        //initializing realm for storing and reading training data
         Realm.init(context);
         Realm realm = Realm.getDefaultInstance();
         RealmResults<OverviewTraining_Listitem_Model> trainings = realm.where(OverviewTraining_Listitem_Model.class).findAll();

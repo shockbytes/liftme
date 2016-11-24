@@ -13,7 +13,6 @@ public abstract class Global_Fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         FRAGMENT_NAME = this.getClass().getSimpleName();
-        Log.v("Fragment Attached", FRAGMENT_NAME);
         super.onAttach(context);
     }
 

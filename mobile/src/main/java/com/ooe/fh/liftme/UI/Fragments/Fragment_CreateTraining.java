@@ -128,7 +128,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
             mReceiver = new OnDragHappenedBroadcastReceiver();
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(
                     mReceiver,
-                    new IntentFilter("ON_ITEM_DRAG_HAPPENED"));
+                    new IntentFilter(getResources().getString(R.string.intent_filter_drag_broadcast_receiver)));
         }
     }
 
@@ -182,7 +182,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
             @Override
             public void onClick(View view) {
                 int color = getContext().getResources().getColor(R.color.colorRedExercise);
-                mItemData.add(0,new CreateTraining_Listitem_Model("Drag & Drop" + mItemData.size(), 0, color, color, mItemData.size()+1));
+                mItemData.add(0,new CreateTraining_Listitem_Model(getResources().getString(R.string.exercise_list_model_example_text) + mItemData.size(), 0, color, color, mItemData.size()+1));
                 mAdapter.notifyItemInserted(0);
                 //llm.scrollToPositionWithOffset(0,0);
                 recycleview_createTrainingsplan.invalidate();
@@ -213,7 +213,7 @@ public class Fragment_CreateTraining extends Global_Fragment{
             mReceiver = new OnDragHappenedBroadcastReceiver();
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(
                     mReceiver,
-                    new IntentFilter("ON_ITEM_DRAG_HAPPENED"));
+                    new IntentFilter(getResources().getString(R.string.intent_filter_drag_broadcast_receiver)));
         }
     }
 
@@ -354,19 +354,18 @@ public class Fragment_CreateTraining extends Global_Fragment{
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(intent.getAction() == "ON_ITEM_DRAG_HAPPENED"){
-                Log.e("broadcastReceiver", "received event");
-                String title = intent.getStringExtra("MODEL_TITLE");
-                int weight = intent.getIntExtra("MODEL_WEIGHT", -1);
-                int positon = intent.getIntExtra("MODEL_POSITION", -1);
-                int title_background = intent.getIntExtra("MODEL_TITLE_BACKGROUND", -1);
-                int weight_background = intent.getIntExtra("MODEL_WEIGHT_BACKGROUND", -1);
-                mItemData.get(mItemData.size()-positon).setAmount_trainingsplan_listitem(weight);
+            if(intent.getAction() == getResources().getString(R.string.intent_filter_drag_broadcast_receiver)){
+                String title = intent.getStringExtra(getResources().getString(R.string.intent_extra_title));
+                int repetitions = intent.getIntExtra(getResources().getString(R.string.intent_extra_repetitions), -1);
+                int positon = intent.getIntExtra(getResources().getString(R.string.intent_extra_position), -1);
+                int title_background = intent.getIntExtra(getResources().getString(R.string.intent_extra_background_title), -1);
+                int weight_background = intent.getIntExtra(getResources().getString(R.string.intent_extra_background_repetitions), -1);
+                mItemData.get(mItemData.size()-positon).setAmount_trainingsplan_listitem(repetitions);
                 mItemData.get(mItemData.size()-positon).setTitle_trainingsplan_listitem(title);
                 mItemData.get(mItemData.size()-positon).setTitle_background_color(title_background);
                 mItemData.get(mItemData.size()-positon).setAmount_background_color(weight_background);
 
-                if(!mItemData.get(mItemData.size()-positon).getTitle_trainingsplan_listitem().equals("Drag & Drop") &&
+                if(!mItemData.get(mItemData.size()-positon).getTitle_trainingsplan_listitem().equals(getResources().getString(R.string.exercise_list_model_example_text)) &&
                         mItemData.get(mItemData.size()-positon).getAmount_trainingsplan_listitem() != 0
                         ){
                     mItemData.get(mItemData.size()-positon).setCompleteModel(true);

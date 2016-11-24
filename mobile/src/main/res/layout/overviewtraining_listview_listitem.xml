@@ -17,7 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Exercise"
+                android:text="@string/create_training_listitem_textview_exercise_name"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:paddingBottom="20dp"

@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="Exercise"
+                android:text="@string/create_training_listitem_textview_exercise_name"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="30dp" />
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="0"
+                android:text="@string/create_training_listitem_textview_exercise_repetition"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="30dp" />
