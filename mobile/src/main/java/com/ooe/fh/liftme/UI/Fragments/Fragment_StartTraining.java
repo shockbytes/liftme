@@ -1,11 +1,9 @@
 package com.ooe.fh.liftme.UI.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +23,8 @@ public class Fragment_StartTraining extends Global_Fragment implements Listeners
     //Manager
     private FragmentManager mFragmentManager;
 
-    public static Fragment_StartTraining newInstance(Context context) {
-        Fragment_StartTraining f = new Fragment_StartTraining();
-        return f;
+    public static Fragment_StartTraining newInstance() {
+        return new Fragment_StartTraining();
     }
 
     @Override
@@ -59,13 +56,6 @@ public class Fragment_StartTraining extends Global_Fragment implements Listeners
         super.onResume();
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getView() != null) {
-        }
-    }
-
     /**
      * Adds fragment to the flContent
      * @param fragment          Fragment to add
@@ -84,7 +74,7 @@ public class Fragment_StartTraining extends Global_Fragment implements Listeners
 
     @Override
     public void onStartTrainingStartButtonClick(OverviewTraining_Listitem_Model model) {
-        Fragment_StartTraining_Train fragment = Fragment_StartTraining_Train.newInstance(getContext(), model);
+        Fragment_StartTraining_Train fragment = Fragment_StartTraining_Train.newInstance(model);
         addFragment(fragment, true);
     }
 

@@ -1,6 +1,5 @@
 package com.ooe.fh.liftme.UI.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -71,8 +70,7 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     private GoogleApiClient mGoogleApiClient;
     private String mNodeID;
 
-    public static Fragment_StartTraining_Train newInstance(Context context,
-                                                           OverviewTraining_Listitem_Model _model) {
+    public static Fragment_StartTraining_Train newInstance(OverviewTraining_Listitem_Model _model) {
         Fragment_StartTraining_Train f = new Fragment_StartTraining_Train();
         f.setData(_model);
         return f;
@@ -103,8 +101,6 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
         mPagerAdapter = new Train_PagerAdapter();
         createAllPage();
         pager_train.setAdapter(mPagerAdapter);
-
-
         pager_train.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -115,29 +111,10 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-
     /**
      * Starts the chronometer
      */
     private void startChronometer() {
-        /*chronometer1.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer cArg) {
-                long time = SystemClock.elapsedRealtime() - cArg.getBase();
-                int h = (int) (time / 3600000);
-                int m = (int) (time - h * 3600000) / 60000;
-                int s = (int) (time - h * 3600000 - m * 60000) / 1000;
-                String hh = h < 10 ? "0" + h : h + "";
-                String mm = m < 10 ? "0" + m : m + "";
-                String ss = s < 10 ? "0" + s : s + "";
-                cArg.setText(hh + ":" + mm + ":" + ss);
-            }
-        }); */
         chronometer1.setBase(SystemClock.elapsedRealtime());
         chronometer1.start();
 
@@ -148,26 +125,21 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
         final int intToDoRep = model.getExercises_traingsplan().get(mActuallPage).getAmount_trainingsplan_listitem();
         String exercise = model.getExercises_traingsplan().get(mActuallPage).getTitle_trainingsplan_listitem();
 
-        //mActuallPage++;
         mActuallRepetition = 0;
         pager_train.setCurrentItem(mActuallPage);
-        //TextView exercise = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_exercise_name_pager);
-        //TextView toDoRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_todorepetition);
         String data = exercise + "_" + intToDoRep;
         sendMessage("exercise", data.getBytes());
     }
 
     private void updateViewText() {
+
         mActuallRepetition++;
         String exercise = model.getExercises_traingsplan().get(mActuallPage).getTitle_trainingsplan_listitem();
         int todoRep = model.getExercises_traingsplan().get(mActuallPage).getAmount_trainingsplan_listitem();
-        //TextView toDoRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_todorepetition);
-        //TextView exercise = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_exercise_name_pager);
         if (exercise.equals("Pause")) {
             String data = "pause_" + todoRep;
             sendMessage("exercise", data.getBytes());
             pauseTimer();
-            //mActuallPage++;
             pager_train.setCurrentItem(mActuallPage);
             mActuallRepetition = 0;
         } else {
@@ -195,16 +167,23 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
         int bgID;
         for (int i = 0; i < model.getExercises_traingsplan().size(); i++) {
             TrainExercise_Page_Holder test = new TrainExercise_Page_Holder(getContext());
-            if (model.getExercises_traingsplan().get(i).getTitle_trainingsplan_listitem().equals("Curls")) {
+            if (model.getExercises_traingsplan().get(i)
+                    .getTitle_trainingsplan_listitem().equals("Curls")) {
                 bgID = R.drawable.bg_curlsbackground;
-            } else if (model.getExercises_traingsplan().get(i).getTitle_trainingsplan_listitem().equals("Bench Press")) {
+            } else if (model.getExercises_traingsplan().get(i)
+                    .getTitle_trainingsplan_listitem().equals("Bench Press")) {
                 bgID = R.drawable.bg_benchpress;
-            } else if (model.getExercises_traingsplan().get(i).getTitle_trainingsplan_listitem().equals("Butterfly")) {
+            } else if (model.getExercises_traingsplan().get(i)
+                    .getTitle_trainingsplan_listitem().equals("Butterfly")) {
                 bgID = R.drawable.bg_butterfly;
             } else {
                 bgID = R.drawable.bg_pause;
             }
-            test.setData(new TrainExercise_Page_Model(model.getExercises_traingsplan().get(i).getTitle_trainingsplan_listitem(), model.getExercises_traingsplan().get(i).getAmount_trainingsplan_listitem(), bgID));
+            test.setData(new TrainExercise_Page_Model(
+                    model.getExercises_traingsplan().get(i)
+                            .getTitle_trainingsplan_listitem(),
+                    model.getExercises_traingsplan().get(i)
+                            .getAmount_trainingsplan_listitem(), bgID));
             mPagerAdapter.addView(test, i);
         }
     }
@@ -214,11 +193,10 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
      */
     private void pauseTimer() {
 
-        final TextView actualRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_actualrepetition);
-
-        final int intToDoRep = model.getExercises_traingsplan().get(mActuallPage).getAmount_trainingsplan_listitem();
-        //TextView toDoRep = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_todorepetition);
-        //final int intToDoRep = Integer.parseInt(toDoRep.getText().toString());
+        final TextView actualRep = (TextView) mPagerAdapter.getView(mActuallPage)
+                .findViewById(R.id.txtview_actualrepetition);
+        final int intToDoRep = model.getExercises_traingsplan().get(mActuallPage)
+                .getAmount_trainingsplan_listitem();
         final Timer t = new Timer();
         final TimerTask tt = new TimerTask() {
             int countdown = 0;
@@ -312,7 +290,6 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
     private void handleResult(JSONObject json) {
 
         String gesture = json.optString("recognized");
-        //String score = json.optString("score");
 
         if (mActuallPage >= mPagerAdapter.getCount()) {
             stopExerciseRecognition();
@@ -320,8 +297,8 @@ public class Fragment_StartTraining_Train extends Global_Fragment {
             return;
         }
 
-        String exercise = model.getExercises_traingsplan().get(mActuallPage).getTitle_trainingsplan_listitem();
-        //TextView exercise = (TextView) mPagerAdapter.getView(mActuallPage).findViewById(R.id.txtview_exercise_name_pager);
+        String exercise = model.getExercises_traingsplan().get(mActuallPage)
+                .getTitle_trainingsplan_listitem();
 
         if (gesture.contains(getString(R.string.exercise_recognition_curl))) {
             if (exercise.equals(getResources().getString(R.string.fragment_create_training_button_exercise_curls))) {
